@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Coordish</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome_text">Welcome to Coordish!</string>
+    <string name="male_button">MALE</string>
+    <string name="female_button">FEMALE</string>
+    <string name="choose_your_sex">Choose your sex</string>
+    <string name="title_activity_todays_forecast">TodaysForecast</string>
+    <string name="you_should_wash">You Should Wash</string>
+</resources>
