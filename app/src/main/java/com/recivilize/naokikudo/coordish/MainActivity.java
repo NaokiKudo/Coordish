@@ -8,8 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -38,11 +36,8 @@ public class MainActivity extends AppCompatActivity {
         if (pref.getInt("sex", 0) == 1 || pref.getInt("sex", 0) == 2) {
             Intent intent = new Intent(this, Wash_Recommend.class);
             startActivity(intent);
-        } else {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+
 
 
     }
@@ -52,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //男という情報を保存する
         editor= pref.edit();
-        //男は1
         editor.putInt("sex", 1);
         editor.commit();
 
@@ -64,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         //女という情報を保存する
         editor= pref.edit();
-        //女は2
         editor.putInt("sex", 2);
         editor.commit();
     }
