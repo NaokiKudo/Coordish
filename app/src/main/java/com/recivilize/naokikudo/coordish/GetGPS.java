@@ -21,7 +21,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
     private LocationManager mLocationManager;
     double latitude;
     double longitude;
-    private SharedPreferences gpsData;
+    public SharedPreferences gpsData;
     private SharedPreferences.Editor editor;
     Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 

@@ -31,7 +31,6 @@ public class Wash_Recommend extends AppCompatActivity {
         setContentView(R.layout.activity_wash__recommend);
         mHandler = new android.os.Handler();
 
-        getWeather();
     }
 
 

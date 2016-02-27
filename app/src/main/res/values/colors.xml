@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#26A69A</color>
+    <color name="colorPrimaryAlpha">#8826A69A</color>
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#FFC400</color>
     <color name="colorPrimaryMale">#29B6F6</color>
     <color name="colorPrimaryDarkMale">#0288D1</color>
     <color name="colorPrimaryFemale">#F06292</color>
     <color name="colorPrimaryDarkFemale">#e7477d</color>
+    <color name="textPrimary">#212121</color>
 </resources>
