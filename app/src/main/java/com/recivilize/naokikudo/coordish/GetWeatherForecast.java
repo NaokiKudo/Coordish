@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+
 
 
 public class GetWeatherForecast extends AppCompatActivity {
@@ -30,7 +32,11 @@ public class GetWeatherForecast extends AppCompatActivity {
 
     private void getForecast () {
         requestURL = "http://api.openweathermap.org/data/2.5/find?lat="+String.valueOf(latitude)+"&lon="+String.valueOf(longitude)+"&cnt=1&APPID=d7689f4744a178cb7c399d8bf0e3c6f8";
-        URL url = new URL(requestURL);
+        try {
+            URL url = new URL(requestURL);
+        } catch(MalformedURLException e){
+            e.printStackTrace();
+        }
         InputStream is = url.openConnection().getInputStream();
 
         // JSON形式で結果が返るためパースのためにStringに変換する
