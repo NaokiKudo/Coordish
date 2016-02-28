@@ -25,7 +25,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
     private SharedPreferences.Editor editor;
     Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-    public GetGPS (){
+    public float[] getGPS (){
         mLocationManager = (LocationManager) this.getSystemService(Service.LOCATION_SERVICE);
         //位置情報を取得
         requestLocationUpdates();
@@ -38,6 +38,10 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
         editor.putFloat("latitude", (float)latitude);
         editor.putFloat("longitude", (float)longitude);
         editor.commit();
+        float gpsData[] = {(float)latitude, (float)longitude};
+
+        return gpsData;
+
 
     }
 
