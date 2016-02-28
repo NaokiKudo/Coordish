@@ -1,6 +1,5 @@
 package com.recivilize.naokikudo.coordish;
 
-import android.app.Service;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,15 +17,18 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
     //update time (approximately)
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1;
     //update Distance (approximately)
-    private LocationManager mLocationManager;
     double latitude;
     double longitude;
     public SharedPreferences gpsData;
     private SharedPreferences.Editor editor;
-    Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    LocationManager mLocationManager;
+    Location location;
 
     public float[] getGPS (){
-        mLocationManager = (LocationManager) this.getSystemService(Service.LOCATION_SERVICE);
+        Wash_Recommend washRecommend = new Wash_Recommend();
+        mLocationManager = washRecommend.mLocationManager;
+        location = washRecommend.location;
+        location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //位置情報を取得
         requestLocationUpdates();
         //緯度経度
@@ -35,8 +37,8 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
         //位置情報を保存
         gpsData = getSharedPreferences("SaveGPS", MODE_PRIVATE);
         editor = gpsData.edit();
-        editor.putFloat("latitude", (float)latitude);
-        editor.putFloat("longitude", (float)longitude);
+        editor.putFloat("latitude", (float) latitude);
+        editor.putFloat("longitude", (float) longitude);
         editor.commit();
         float gpsData[] = {(float)latitude, (float)longitude};
 
