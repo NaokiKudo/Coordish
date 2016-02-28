@@ -17,22 +17,26 @@ import java.net.URL;
 
 public class GetWeatherForecast extends AppCompatActivity {
 
-    GetGPS getGPS = new GetGPS();
-    float latitude = getGPS.gpsData.getFloat("latitude", 0);
-    float longitude = getGPS.gpsData.getFloat("longitude", 0);
     String requestURL;
     String data;
+    GetGPS getGPS = new GetGPS();
+    int id;
+    String cityName;
     float currentTemp;
+    float minTemp;
+    float maxTemp;
 
-    public GetWeatherForecast () {
-        GetGPS.getGPS();
-        getForecast();
+
+
+    public void GetWeatherForecast () {
+        float gps[] = getGPS.getGPS();
+        getForecast(gps[0], gps[1]);
 
 
     }
 
 
-    public void getForecast () {
+    public String[] getForecast (float latitude, float longitude) {
          requestURL = "http://api.openweathermap.org/data/2.5/find?lat="+String.valueOf(latitude)+"&lon="+String.valueOf(longitude)+"&cnt=1&APPID=d7689f4744a178cb7c399d8bf0e3c6f8";
         try {
             URL url = new URL(requestURL);
@@ -59,18 +63,18 @@ public class GetWeatherForecast extends AppCompatActivity {
             JSONObject obj = listArray.getJSONObject(0);
 
             // 地点ID
-            int id = obj.getInt("id");
+            id = obj.getInt("id");
 
             // 地点名
-            String cityName = obj.getString("name");
+            cityName = obj.getString("name");
 
             // 気温(Kから℃に変換)
             JSONObject mainObj = obj.getJSONObject("main");
             currentTemp = (float) (mainObj.getDouble("temp") - 273.15f);
 
-            float minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
+            minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
 
-            float maxTemp = (float) (mainObj.getDouble("temp_max") - 273.15f);
+            maxTemp = (float) (mainObj.getDouble("temp_max") - 273.15f);
 
             // 湿度
             if (mainObj.has("humidity")) {
@@ -85,9 +89,18 @@ public class GetWeatherForecast extends AppCompatActivity {
             JSONObject weatherObj = weatherArray.getJSONObject(0);
             String iconId = weatherObj.getString("icon");
 
+            String weatherInformation[] = {
+                    String.valueOf(id), cityName, String.valueOf(minTemp), String.valueOf(maxTemp)
+            };
+
+            return weatherInformation;
+
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
+
+
 
 
 

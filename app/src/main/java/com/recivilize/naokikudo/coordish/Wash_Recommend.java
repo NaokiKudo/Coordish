@@ -10,8 +10,9 @@ import android.widget.TextView;
 public class Wash_Recommend extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    GetGPS getGPS = new GetGPS();
+    float gps[] = getGPS.getGPS();
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
-    float currentTemp = getWeatherForecast.currentTemp;
     TextView todayWeatherText;
 
 
@@ -21,7 +22,8 @@ public class Wash_Recommend extends AppCompatActivity {
         Log.e(TAG, "onCreate");
         setContentView(R.layout.activity_wash__recommend);
         todayWeatherText = (TextView) findViewById(R.id.todayWeather);
-        GetWeatherForecast();
+        String weatherInformation[] = getWeatherForecast.getForecast(gps[0], gps[1]);
+        todayWeatherText.setText(weatherInformation[1]);
 
 
 

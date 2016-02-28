@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("sex", 1);
         editor.commit();
 
+        Intent intent = new Intent(this, Wash_Recommend.class);
+        startActivity(intent);
+
 
     }
 
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         editor= pref.edit();
         editor.putInt("sex", 2);
         editor.commit();
+        Intent intent = new Intent(this, Wash_Recommend.class);
+        startActivity(intent);
     }
 
 
