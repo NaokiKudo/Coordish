@@ -8,6 +8,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 
 public class GetGPS extends AppCompatActivity implements LocationListener{
@@ -23,8 +24,14 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
     private SharedPreferences.Editor editor;
     LocationManager mLocationManager;
     Location location;
+    GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
+    TextView todayWeather;
 
-    public float[] getGPS (){
+    @Override
+    public void onCreate (Bundle savedInstanceState){
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wash__recommend);
         Wash_Recommend washRecommend = new Wash_Recommend();
         mLocationManager = washRecommend.mLocationManager;
         location = washRecommend.location;
@@ -40,9 +47,12 @@ public class GetGPS extends AppCompatActivity implements LocationListener{
         editor.putFloat("latitude", (float) latitude);
         editor.putFloat("longitude", (float) longitude);
         editor.commit();
-        float gpsData[] = {(float)latitude, (float)longitude};
+        String[] weather =
+        getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
+        todayWeather = (TextView) findViewById(R.id.todayWeather);
+        todayWeather.setText(weather[0]);
 
-        return gpsData;
+
 
 
     }

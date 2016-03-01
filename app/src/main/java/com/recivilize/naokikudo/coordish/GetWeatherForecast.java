@@ -19,7 +19,6 @@ public class GetWeatherForecast extends AppCompatActivity {
 
     String requestURL;
     String data;
-    GetGPS getGPS = new GetGPS();
     int id;
     String cityName;
     float currentTemp;
@@ -27,13 +26,6 @@ public class GetWeatherForecast extends AppCompatActivity {
     float maxTemp;
 
 
-
-    public void GetWeatherForecast () {
-        float gps[] = getGPS.getGPS();
-        getForecast(gps[0], gps[1]);
-
-
-    }
 
 
     public String[] getForecast (float latitude, float longitude) {
