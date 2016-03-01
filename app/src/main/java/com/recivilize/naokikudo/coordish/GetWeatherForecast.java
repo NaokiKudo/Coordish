@@ -1,107 +1,111 @@
 package com.recivilize.naokikudo.coordish;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 
 
 public class GetWeatherForecast extends AppCompatActivity {
-
-    String requestURL;
-    String data;
-    int id;
-    String cityName;
-    float currentTemp;
-    float minTemp;
+    JSONArray forecastArray;
+    Handler mHandler = new android.os.Handler();
     float maxTemp;
-    private final String TAG = "TAAAAAAAAAAAAAAAAAAAAAG";
 
 
 
 
 
-    public String[] getForecast (float latitude, float longitude) {
-         requestURL = "http://api.openweathermap.org/data/2.5/find?lat="+String.valueOf(latitude)+"&lon="+String.valueOf(longitude)+"&cnt=1&APPID=d7689f4744a178cb7c399d8bf0e3c6f8";
-        try {
-            URL url = new URL(requestURL);
-            InputStream is = url.openConnection().getInputStream();
-
-            // JSON形式で結果が返るためパースのためにStringに変換する
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while (null != (line = reader.readLine())) {
-                stringBuilder.append(line);
-            }
-            data = stringBuilder.toString();
 
 
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }try {
-            JSONObject rootObj = new JSONObject(data);
-            JSONArray listArray = rootObj.getJSONArray("list");
-
-            JSONObject obj = listArray.getJSONObject(0);
-
-
-
-            // 地点ID
-            id = obj.getInt("id");
-
-            // 地点名
-            cityName = obj.getString("name");
-
-            // 気温(Kから℃に変換)
-            JSONObject mainObj = obj.getJSONObject("main");
-            currentTemp = (float) (mainObj.getDouble("temp") - 273.15f);
-
-            minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
-
-            maxTemp = (float) (mainObj.getDouble("temp_max") - 273.15f);
-            Log.e(TAG, currentTemp+"");
-
-            // 湿度
-            if (mainObj.has("humidity")) {
-                int humidity = mainObj.getInt("humidity");
+    public float getForecast (float latitude, float longitude) {
+        //リクエストオブジェクトを作って
+        Request request = new Request.Builder()
+                //URLを生成
+                .url("http://api.openweathermap.org/data/2.5/find?lat=" + String.valueOf(latitude) + "&lon=" + String.valueOf(longitude) + "&cnt=1&APPID=d7689f4744a178cb7c399d8bf0e3c6f8")
+                .get().build();
+        //クライアントオブジェクトを作成する
+        OkHttpClient client = new OkHttpClient();
+        //新しいリクエストを行う
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                e.printStackTrace();
             }
 
-            // 取得時間
-            long time = obj.getLong("dt");
+            //通信が成功した時
+            @Override
+            public void onResponse(Response response) throws IOException {
+                //通信結果をログに出力する
+                Log.d("onResponse", response.toString());
+                final String json = response.body().string();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        parseJson(json);
+                    }
+                });
+            }
 
-            // 天気
-            JSONArray weatherArray = obj.getJSONArray("weather");
-            JSONObject weatherObj = weatherArray.getJSONObject(0);
-            String iconId = weatherObj.getString("icon");
+            public float parseJson(String json) {
 
-            String weatherInformation[] = {
-                    String.valueOf(id), cityName, String.valueOf(minTemp), String.valueOf(maxTemp)
-            };
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    JSONArray listArray = jsonObject.getJSONArray("list");
+                    Log.d("TAG1" , listArray.toString());
 
-            return weatherInformation;
+                    JSONObject obj = listArray.getJSONObject(0);
+                    Log.d("TAG2" ,obj.toString());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+                    // 地点ID
+                    int id = obj.getInt("id");
+
+                    // 地点名
+                    String cityName = obj.getString("name");
+
+                    // 気温(Kから℃に変換)
+                    JSONObject mainObj = obj.getJSONObject("main");
+                    float currentTemp = (float) (mainObj.getDouble("temp") - 273.15f);
+
+                    float minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
+
+                    maxTemp = (float) (mainObj.getDouble("temp_max"));
+
+                    // 湿度
+                    if (mainObj.has("humidity")) {
+                        int humidity = mainObj.getInt("humidity");
+                    }
+
+                    // 取得時間
+                    long time = obj.getLong("dt");
+
+                    // 天気
+                    JSONArray weatherArray = obj.getJSONArray("weather");
+                    JSONObject weatherObj = weatherArray.getJSONObject(0);
+                    String iconId = weatherObj.getString("icon");
+
+                    return maxTemp;
 
 
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return 8.8f;
 
+                }
+            }
 
+        });
+        return maxTemp;
     }
 
 }
