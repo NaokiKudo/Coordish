@@ -62,37 +62,18 @@ public class GetWeatherForecast extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     JSONArray listArray = jsonObject.getJSONArray("list");
                     Log.d("TAG1" , listArray.toString());
-                    JSONObject obj = listArray.getJSONObject(0);
-                    Log.d("TAG2" ,obj.toString());
-                    JSONObject obj1 = listArray.getJSONObject(1);
-                    Log.d("TAG3" ,obj1.toString());
+                    for(int i = 0; i < 36; i++) {
+                        JSONObject obj = listArray.getJSONObject(i);
+                        Log.d(i+"+"+"TAG", obj.toString());
+                        JSONArray weatherArray = obj.getJSONArray("weather");
+                        JSONObject descriptionObject = weatherArray.getJSONObject(0);
+                        if (obj.getString("dt_txt").endsWith("12:00:00")){
+                            String description = descriptionObject.getString("description");
+                            Log.d(i + "+" + "weatherrrrrrr", description);
+                        }
 
-                    // 地点ID
-                    int id = obj.getInt("id");
-
-                    // 地点名
-                    String cityName = obj.getString("name");
-
-                    // 気温(Kから℃に変換)
-                    JSONObject mainObj = obj.getJSONObject("main");
-                    float currentTemp = (float) (mainObj.getDouble("temp") - 273.15f);
-
-                    float minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
-
-                    maxTemp = (float) (mainObj.getDouble("temp_max"));
-
-                    // 湿度
-                    if (mainObj.has("humidity")) {
-                        int humidity = mainObj.getInt("humidity");
                     }
 
-                    // 取得時間
-                    long time = obj.getLong("dt");
-
-                    // 天気
-                    JSONArray weatherArray = obj.getJSONArray("weather");
-                    JSONObject weatherObj = weatherArray.getJSONObject(0);
-                    String iconId = weatherObj.getString("icon");
 
                     return maxTemp;
 

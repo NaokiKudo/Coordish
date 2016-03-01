@@ -46,7 +46,7 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
         editor = gpsData.edit();
         editor.putFloat("latitude", (float) latitude);
         editor.putFloat("longitude", (float) longitude);
-        Log.e(TAG, longitude + "");
+        Log.d(TAG, longitude + "");
         editor.commit();
         float weather =
                 getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
