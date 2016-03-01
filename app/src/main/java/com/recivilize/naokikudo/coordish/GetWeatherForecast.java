@@ -1,6 +1,7 @@
 package com.recivilize.naokikudo.coordish;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,8 @@ public class GetWeatherForecast extends AppCompatActivity {
     float currentTemp;
     float minTemp;
     float maxTemp;
+    private final String TAG = "TAAAAAAAAAAAAAAAAAAAAAG";
+
 
 
 
@@ -54,6 +57,8 @@ public class GetWeatherForecast extends AppCompatActivity {
 
             JSONObject obj = listArray.getJSONObject(0);
 
+
+
             // 地点ID
             id = obj.getInt("id");
 
@@ -67,6 +72,7 @@ public class GetWeatherForecast extends AppCompatActivity {
             minTemp = (float) (mainObj.getDouble("temp_min") - 273.15f);
 
             maxTemp = (float) (mainObj.getDouble("temp_max") - 273.15f);
+            Log.e(TAG, currentTemp+"");
 
             // 湿度
             if (mainObj.has("humidity")) {
