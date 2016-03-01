@@ -31,7 +31,7 @@ public class GetWeatherForecast extends AppCompatActivity {
         //リクエストオブジェクトを作って
         Request request = new Request.Builder()
                 //URLを生成
-                .url("http://api.openweathermap.org/data/2.5/find?lat=" + String.valueOf(latitude) + "&lon=" + String.valueOf(longitude) + "&cnt=1&APPID=d7689f4744a178cb7c399d8bf0e3c6f8")
+                .url("http://api.openweathermap.org/data/2.5/forecast?lat=" + String.valueOf(latitude) + "&lon=" + String.valueOf(longitude) + "&APPID=d7689f4744a178cb7c399d8bf0e3c6f8")
                 .get().build();
         //クライアントオブジェクトを作成する
         OkHttpClient client = new OkHttpClient();
@@ -62,9 +62,10 @@ public class GetWeatherForecast extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     JSONArray listArray = jsonObject.getJSONArray("list");
                     Log.d("TAG1" , listArray.toString());
-
                     JSONObject obj = listArray.getJSONObject(0);
                     Log.d("TAG2" ,obj.toString());
+                    JSONObject obj1 = listArray.getJSONObject(1);
+                    Log.d("TAG3" ,obj1.toString());
 
                     // 地点ID
                     int id = obj.getInt("id");
