@@ -14,20 +14,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GetWeatherForecast extends AppCompatActivity {
-    JSONArray forecastArray;
+
     Handler mHandler = new android.os.Handler();
-    float maxTemp;
+    static List<String> descriptionList = new ArrayList<String>();
 
 
 
-
-
-
-
-    public float getForecast (float latitude, float longitude) {
+    public void getForecast (float latitude, float longitude) {
         //リクエストオブジェクトを作って
         Request request = new Request.Builder()
                 //URLを生成
@@ -52,42 +50,59 @@ public class GetWeatherForecast extends AppCompatActivity {
                     @Override
                     public void run() {
                         parseJson(json);
+                        Log.d("TAG", descriptionList.get(0));
+
+
                     }
                 });
             }
 
-            public float parseJson(String json) {
+            public void parseJson(String json) {
+
+
 
                 try {
                     JSONObject jsonObject = new JSONObject(json);
                     JSONArray listArray = jsonObject.getJSONArray("list");
-                    Log.d("TAG1" , listArray.toString());
+                    Log.d("TAG1", listArray.toString());
+
                     for(int i = 0; i < 36; i++) {
+
                         JSONObject obj = listArray.getJSONObject(i);
-                        Log.d(i+"+"+"TAG", obj.toString());
+                        Log.d("TAG2", obj.toString());
                         JSONArray weatherArray = obj.getJSONArray("weather");
                         JSONObject descriptionObject = weatherArray.getJSONObject(0);
+
                         if (obj.getString("dt_txt").endsWith("12:00:00")){
+
+                            int j =0;
                             String description = descriptionObject.getString("description");
-                            Log.d(i + "+" + "weatherrrrrrr", description);
+                            Log.d(i + "+" + "weather", description);
+                            String iconId = descriptionObject.getString("icon");
+                            Log.d("icon", iconId);
+                            descriptionList.add(description);
+                            Log.d("description", descriptionList.get(j));
+
+                            j++;
+
                         }
 
                     }
 
 
-                    return maxTemp;
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    return 8.8f;
+
+
 
                 }
+
+
+
             }
 
         });
-        return maxTemp;
+
     }
 
 }

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class Wash_Recommend extends AppCompatActivity implements LocationListener{
 
@@ -23,7 +25,10 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
     private SharedPreferences.Editor editor;
     LocationManager mLocationManager;
     Location location;
+
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
+    List<String> descriptionList;
+
     TextView todayWeather;
     private final String TAG = "GPSSSSSSSSSSSS";
 
@@ -36,6 +41,8 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
         setContentView(R.layout.activity_wash__recommend);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        todayWeather = (TextView) findViewById(R.id.todayWeather);
+
         //位置情報を取得
         requestLocationUpdates();
         //緯度経度
@@ -46,12 +53,15 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
         editor = gpsData.edit();
         editor.putFloat("latitude", (float) latitude);
         editor.putFloat("longitude", (float) longitude);
-        Log.d(TAG, longitude + "");
+        Log.d("GPSSSSS", latitude + "");
+        Log.d("GPSSSSS", longitude + "");
         editor.commit();
-        float weather =
-                getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
-        todayWeather = (TextView) findViewById(R.id.todayWeather);
-        todayWeather.setText(String.valueOf(weather));
+
+        //天気情報を取得
+        getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
+        //取得した天気予報をレイアウトへ適用
+        descriptionList = GetWeatherForecast.descriptionList;
+        Log.d("アイウエオ" , descriptionList.get(0));
 
 
 
@@ -60,6 +70,8 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
 
 
 
+
+    //GPSメソッド群
     @Override
     public void onLocationChanged(Location location) {
 
