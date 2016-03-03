@@ -12,15 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 
 public class Wash_Recommend extends Activity implements LocationListener{
 
+    //位置情報関連
     private static final int LOCATION_UPDATE_MIN_TIME = 0;
-    //update time (approximately)
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1;
-    //update Distance (approximately)
     double latitude;
     double longitude;
     public SharedPreferences gpsData;
@@ -30,15 +27,21 @@ public class Wash_Recommend extends Activity implements LocationListener{
 
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
 
-
+    //レイアウト関連
+    //テキスト(日)
+    static TextView[] date;
+    //テキスト(天気)
     static TextView todayWeather;
     static TextView tomorrowWeather;
     static TextView threeDaysAfterWeather;
     static TextView fourDaysAfterWeather;
     static TextView fiveDaysAfterWeather;
-    static TextView when;
-    static TextView weatherLocation;
 
+    //テキスト(場所,推奨日)
+    static TextView weatherLocation;
+    static TextView recommendation;
+    static TextView when;
+    //画像
     static ImageView todayWeatherImage;
 
 
@@ -50,33 +53,25 @@ public class Wash_Recommend extends Activity implements LocationListener{
         setContentView(R.layout.activity_wash__recommend);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        //---------初期化---------------
         todayWeather = (TextView) findViewById(R.id.todayWeather);
         tomorrowWeather = (TextView)findViewById(R.id.tomorrowWeather);
         threeDaysAfterWeather = (TextView)findViewById(R.id.threeDaysAfterWeather);
         fourDaysAfterWeather = (TextView)findViewById(R.id.fourDaysAfterWeather);
         fiveDaysAfterWeather = (TextView)findViewById(R.id.fiveDaysAfterWeather);
-        TextView[] date = {(TextView)findViewById(R.id.today),
-                            (TextView)findViewById(R.id.tomorrow),
-                            (TextView)findViewById(R.id.threeDaysAfter),
-                            (TextView)findViewById(R.id.fourDaysAfter),
-                            (TextView)findViewById(R.id.fiveDaysAfter)};
-
-
+        recommendation = (TextView)findViewById(R.id.recommendation);
         when = (TextView)findViewById(R.id.when);
         weatherLocation = (TextView) findViewById(R.id.location);
 
-        //時間(hour)を取得
-        long currentTimeMillis = System.currentTimeMillis();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(currentTimeMillis);
-        
-        if(calendar.get(Calendar.HOUR_OF_DAY) >= 12){
-            for(int i = 0; i < date.length; i++) {
-                String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
+        date = new TextView[]{(TextView) findViewById(R.id.today),
+                (TextView) findViewById(R.id.tomorrow),
+                (TextView) findViewById(R.id.threeDaysAfter),
+                (TextView) findViewById(R.id.fourDaysAfter),
+                (TextView) findViewById(R.id.fiveDaysAfter)};
+        //----------初期化終了-----------
 
-                date[i].setText(whenText[i+1]);
-            }
-        }
+
         //位置情報を取得
         requestLocationUpdates();
         //緯度経度
@@ -97,10 +92,6 @@ public class Wash_Recommend extends Activity implements LocationListener{
         } else {
             Toast.makeText(this, "Cannot get location", Toast.LENGTH_LONG).show();
         }
-
-
-
-
 
 
     }

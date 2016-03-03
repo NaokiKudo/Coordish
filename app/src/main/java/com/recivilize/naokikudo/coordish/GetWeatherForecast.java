@@ -3,7 +3,6 @@ package com.recivilize.naokikudo.coordish;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -16,14 +15,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
 public class GetWeatherForecast extends AppCompatActivity {
-
+    viewChanger viewChanger = new viewChanger();
     Handler mHandler = new android.os.Handler();
     static List<String> descriptionList = new ArrayList<String>();
+    static List<String> maxTempList = new ArrayList<String>();
+    static List<String> minTempList = new ArrayList<String>();
+    static List<String> humidityList = new ArrayList<String>();
+    static List<String> windSpeedList = new ArrayList<String>();
+    static String name;
+    static String country;
 
 
 
@@ -49,48 +53,13 @@ public class GetWeatherForecast extends AppCompatActivity {
                 Log.d("onResponse", response.toString());
                 final String json = response.body().string();
                 mHandler.post(new Runnable() {
+
                     @Override
                     public void run() {
-
+                        //JSON文字列を変換
                         parseJson(json);
-                        Log.d("TAG", descriptionList.get(0));
-
-
-
-                        TextView todayWeather = Wash_Recommend.todayWeather;
-                        TextView tomorrowWeather = Wash_Recommend.tomorrowWeather;
-                        TextView threeDaysAfterWeather = Wash_Recommend.threeDaysAfterWeather;
-                        TextView fourDaysAfterWeather = Wash_Recommend.fourDaysAfterWeather;
-                        TextView fiveDaysAfterWeather = Wash_Recommend.fiveDaysAfterWeather;
-                        todayWeather.setText(descriptionList.get(0));
-                        tomorrowWeather.setText(descriptionList.get(1));
-                        threeDaysAfterWeather.setText(descriptionList.get(2));
-                        fourDaysAfterWeather.setText(descriptionList.get(3));
-                        fiveDaysAfterWeather.setText(descriptionList.get(4));
-                        TextView when = Wash_Recommend.when;
-                        String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
-
-                        //時間(hour)を取得
-                        long currentTimeMillis = System.currentTimeMillis();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(currentTimeMillis);
-
-
-                        for(int i =0; i < descriptionList.size(); i++) {
-                            if (descriptionList.get(i).startsWith("clear")) {
-                                if (calendar.get(Calendar.HOUR_OF_DAY) >= 12){
-                                    when.setText(whenText[i+1]);
-                                    break;
-                                } else {
-                                    when.setText(whenText[i]);
-                                    break;
-                                }
-                            } else {
-                                when.setText("");
-                            }
-                        }
-
-
+                        //別クラスでViewを配置
+                        viewChanger.viewChange();
 
                     }
                 });
@@ -102,36 +71,56 @@ public class GetWeatherForecast extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(json);
+                    //国情報、地域名を取得
                     String location = jsonObject.getString("city");
                     JSONObject locationObject = new JSONObject(location);
-                    String name = locationObject.getString("name");
-                    String country = locationObject.getString("country");
-                    TextView weatherLocation = Wash_Recommend.weatherLocation;
-                    weatherLocation.setText("in " + name + ", "+ country);
+                    name = locationObject.getString("name");
+                    country = locationObject.getString("country");
 
-
-
-
-
+                    //list配列を取得
                     JSONArray listArray = jsonObject.getJSONArray("list");
                     Log.d("TAG1", listArray.toString());
 
+                    //listから天気情報を取り出す
                     for(int i = 0; i < 36; i++) {
 
                         JSONObject obj = listArray.getJSONObject(i);
                         Log.d("TAG2", obj.toString());
+                        //weather配列を取得
                         JSONArray weatherArray = obj.getJSONArray("weather");
-                        JSONObject descriptionObject = weatherArray.getJSONObject(0);
+
+
 
                         if (obj.getString("dt_txt").endsWith("12:00:00")){
 
                             int j = 0;
-                            String description = descriptionObject.getString("description");
-                            Log.d(i + "+" + "weather", description);
-                            String iconId = descriptionObject.getString("icon");
-                            Log.d("icon", iconId);
+                            //晴れ、曇り、雨なのかを判定
+                            JSONObject descriptionObject = weatherArray.getJSONObject(0);
+                            String description = descriptionObject.getString("main");
                             descriptionList.add(description);
-                            Log.d("description", descriptionList.get(j));
+
+                            //気温と湿度オブジェクトを取得
+                            String temperature = obj.getString("main");
+                            JSONObject temperatureObject = new JSONObject(temperature);
+                            //最高気温を取得,リストに追加
+                            String maxTemp = temperatureObject.getString("temp_max");
+                            maxTempList.add(maxTemp);
+
+                            //最低気温を取得,リストに追加
+                            String minTemp = temperatureObject.getString("temp_min");
+                            minTempList.add(minTemp);
+
+                            //湿度を取得,リストに追加
+                            String humidity = temperatureObject.getString("humidity");
+                            humidityList.add(humidity);
+
+
+                            //風速オブジェクトを取得
+                            String wind = obj.getString("wind");
+                            JSONObject windObject = new JSONObject(wind);
+                            //風速を取得,リストに追加
+                            String windSpeed = windObject.getString("speed");
+                            windSpeedList.add(windSpeed);
 
 
                             j++;
