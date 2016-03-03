@@ -1,3 +1,8 @@
+
+
+//一時的に無効化されたクラス
+
+
 package com.recivilize.naokikudo.coordish;
 
 import android.content.Intent;
@@ -24,8 +29,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //すぐ画面移行(一時的)
+        Intent intent = new Intent(this, Wash_Recommend.class);
+        startActivity(intent);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         welcomeText = (TextView)findViewById(R.id.welcomeText);
@@ -33,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         femaleButton = (Button)findViewById(R.id.femaleButton);
         //データの保存領域を確保する
         pref = getSharedPreferences("dataSave", MODE_PRIVATE);
-        if (pref.getInt("sex", 0) == 1 || pref.getInt("sex", 0) == 2) {
-            Intent intent = new Intent(this, Wash_Recommend.class);
-            startActivity(intent);
-        }
+//        if (pref.getInt("sex", 0) == 1 || pref.getInt("sex", 0) == 2) {
+//            Intent intent = new Intent(this, Wash_Recommend.class);
+//            startActivity(intent);
+//        }
 
 
 

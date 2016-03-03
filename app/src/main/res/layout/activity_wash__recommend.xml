@@ -1,92 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
+    android:layout_marginTop="56dp"
     tools:context="com.recivilize.naokikudo.coordish.Wash_Recommend"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/todayForecast"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:id="@+id/textView2"
-            android:layout_marginTop="16dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tomorrowForecast"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:id="@+id/textView3"
-            android:layout_marginTop="16dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/threeForecast"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:id="@+id/textView4"
-            android:layout_marginTop="16dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fourForecast"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:id="@+id/textView5"
-            android:layout_marginTop="16dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fiveForecast"
-            android:src="@mipmap/ic_launcher"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-        <TextView
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/you_should_wash"
-            android:id="@+id/textView6"
+            android:id="@+id/recommendation"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            android:textSize="24dp" />
+        android:textSize="24sp"
+        android:textStyle="normal"
+        android:textColor="@color/textPrimary" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you_should_wash"
+        android:id="@+id/when"
+        android:layout_gravity="center_horizontal"
+        android:textSize="34sp"
+        android:textStyle="normal"
+        android:textColor="@color/textPrimary" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/location"
+        android:layout_gravity="right"
+        android:textColor="@color/textPrimary" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today"
+        android:id="@+id/today"
+        android:textSize="15sp"
+        android:textColor="@color/textPrimary" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -98,7 +54,76 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/todayWeather"
-            android:layout_gravity="right" />
+            android:layout_marginBottom="24dp"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tomorrow"
+            android:id="@+id/tomorrow"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/tomorrowWeather"
+            android:layout_marginBottom="24dp"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3days after"
+            android:id="@+id/threeDaysAfter"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/threeDaysAfterWeather"
+            android:layout_marginBottom="24dp"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4days after"
+            android:id="@+id/fourDaysAfter"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/fourDaysAfterWeather"
+            android:layout_marginBottom="24dp"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5days after"
+            android:id="@+id/fiveDaysAfter"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/fiveDaysAfterWeather"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
     </LinearLayout>
 
 

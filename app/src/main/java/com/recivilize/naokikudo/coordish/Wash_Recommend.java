@@ -1,19 +1,21 @@
 package com.recivilize.naokikudo.coordish;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.List;
+import java.util.Calendar;
 
 
-public class Wash_Recommend extends AppCompatActivity implements LocationListener{
+public class Wash_Recommend extends Activity implements LocationListener{
 
     private static final int LOCATION_UPDATE_MIN_TIME = 0;
     //update time (approximately)
@@ -27,10 +29,17 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
     Location location;
 
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
-    List<String> descriptionList;
 
-    TextView todayWeather;
-    private final String TAG = "GPSSSSSSSSSSSS";
+
+    static TextView todayWeather;
+    static TextView tomorrowWeather;
+    static TextView threeDaysAfterWeather;
+    static TextView fourDaysAfterWeather;
+    static TextView fiveDaysAfterWeather;
+    static TextView when;
+    static TextView weatherLocation;
+
+    static ImageView todayWeatherImage;
 
 
 
@@ -42,26 +51,54 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         todayWeather = (TextView) findViewById(R.id.todayWeather);
+        tomorrowWeather = (TextView)findViewById(R.id.tomorrowWeather);
+        threeDaysAfterWeather = (TextView)findViewById(R.id.threeDaysAfterWeather);
+        fourDaysAfterWeather = (TextView)findViewById(R.id.fourDaysAfterWeather);
+        fiveDaysAfterWeather = (TextView)findViewById(R.id.fiveDaysAfterWeather);
+        TextView[] date = {(TextView)findViewById(R.id.today),
+                            (TextView)findViewById(R.id.tomorrow),
+                            (TextView)findViewById(R.id.threeDaysAfter),
+                            (TextView)findViewById(R.id.fourDaysAfter),
+                            (TextView)findViewById(R.id.fiveDaysAfter)};
 
+
+        when = (TextView)findViewById(R.id.when);
+        weatherLocation = (TextView) findViewById(R.id.location);
+
+        //時間(hour)を取得
+        long currentTimeMillis = System.currentTimeMillis();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTimeMillis);
+        
+        if(calendar.get(Calendar.HOUR_OF_DAY) >= 12){
+            for(int i = 0; i < date.length; i++) {
+                String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
+
+                date[i].setText(whenText[i+1]);
+            }
+        }
         //位置情報を取得
         requestLocationUpdates();
         //緯度経度
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        //位置情報を保存
-        gpsData = getSharedPreferences("SaveGPS", MODE_PRIVATE);
-        editor = gpsData.edit();
-        editor.putFloat("latitude", (float) latitude);
-        editor.putFloat("longitude", (float) longitude);
-        Log.d("GPSSSSS", latitude + "");
-        Log.d("GPSSSSS", longitude + "");
-        editor.commit();
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            //位置情報を保存
+            gpsData = getSharedPreferences("SaveGPS", MODE_PRIVATE);
+            editor = gpsData.edit();
+            editor.putFloat("latitude", (float) latitude);
+            editor.putFloat("longitude", (float) longitude);
+            Log.d("GPSSSSS", latitude + "");
+            Log.d("GPSSSSS", longitude + "");
+            editor.commit();
 
-        //天気情報を取得
-        getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
-        //取得した天気予報をレイアウトへ適用
-        descriptionList = GetWeatherForecast.descriptionList;
-        Log.d("アイウエオ" , descriptionList.get(0));
+            //天気情報を取得
+            getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
+        } else {
+            Toast.makeText(this, "Cannot get location", Toast.LENGTH_LONG).show();
+        }
+
+
 
 
 
@@ -119,7 +156,13 @@ public class Wash_Recommend extends AppCompatActivity implements LocationListene
                     LOCATION_UPDATE_MIN_DISTANCE,
                     this
             );
+            location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } else {
+            location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Toast.makeText(this, "GPS is disabled", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Get location from network", Toast.LENGTH_LONG).show();
         }
+
     }
 
 }
