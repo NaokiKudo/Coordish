@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ViewChanger {
 
-    public void viewChange (Context context) {
+    public void viewChange(Context context) {
         //---------------------変数の定義
         List<String> descriptionList = GetWeatherForecast.descriptionList;
         List<String> maxTempList = GetWeatherForecast.maxTempList;
@@ -29,33 +29,29 @@ public class ViewChanger {
         String country = GetWeatherForecast.country;
         Log.d("TAG1", descriptionList.get(0));
         //天気取得場所の設定
-        weatherLocation.setText("in " + name + ", "+ country);
+        weatherLocation.setText("in " + name + ", " + country);
         //日にちの配列
         String[] whenText = {"Today", "Tomorrow", "2 Days After", "3 Days After", "4 Days After", "5 DaysAfter"};
-
-
-
-        //12時以降は取得する天気予報が次の日からになるので、表示をずらす
 
 
         //推奨日をセットしたかのスイッチ
         int switch1 = 0;
         int switch2 = 0;
-        for (int i = 0; i < descriptionList.size(); i++){
-            if(descriptionList.get(i).startsWith("Clear")) {
-                switch1 ++;
+        for (int i = 0; i < descriptionList.size(); i++) {
+            if (descriptionList.get(i).startsWith("Clear")) {
+                switch1++;
             }
-            if(descriptionList.get(i).startsWith("Clouds")) {
+            if (descriptionList.get(i).startsWith("Clouds")) {
                 switch2++;
             }
         }
 
 
         //直前の晴れの日を洗濯推奨日にする。
-        if(switch1 != 0) {
+        if (switch1 != 0) {
             for (int i = 0; i < descriptionList.size(); i++) {
                 if (descriptionList.get(i).startsWith("Clear")) {
-                    if (descriptionList.size()==4) {
+                    if (descriptionList.size() == 4) {
                         when.setText(whenText[i + 1]);
                         break;
                     } else {
@@ -67,11 +63,11 @@ public class ViewChanger {
             }
         }
         //晴れの日がなかった場合、直前の曇りの日を推奨日にする
-        if (switch1 == 0){
-            for(int i =0; i < descriptionList.size(); i++) {
-                if (descriptionList.get(i).startsWith("Clouds") ) {
-                    if (descriptionList.size() ==4){
-                        when.setText(whenText[i+1]);
+        if (switch1 == 0) {
+            for (int i = 0; i < descriptionList.size(); i++) {
+                if (descriptionList.get(i).startsWith("Clouds")) {
+                    if (descriptionList.size() == 4) {
+                        when.setText(whenText[i + 1]);
                         break;
                     } else {
                         when.setText(whenText[i]);
@@ -81,7 +77,7 @@ public class ViewChanger {
             }
         }
 
-        if(switch1==0 && switch2==0){
+        if (switch1 == 0 && switch2 == 0) {
             when.setText("");
             recommendation.setText("No chance to wash in a few days");
         }
@@ -111,13 +107,16 @@ public class ViewChanger {
             maxTempText = (TextView) linearLayout.findViewById(R.id.maxTemp);
             minTempText = (TextView) linearLayout.findViewById(R.id.minTemp);
             humidityText = (TextView) linearLayout.findViewById(R.id.humidityNum);
-            windSpeedText = (TextView)linearLayout.findViewById(R.id.windSpeed);
+            windSpeedText = (TextView) linearLayout.findViewById(R.id.windSpeed);
             weatherImage = (ImageView) linearLayout.findViewById(R.id.weatherImage);
             weatherImage.setScaleType(ImageView.ScaleType.FIT_XY);
 
-            if (descriptionList.size()==5) {
+            if (descriptionList.size() == 5) {
                 dateText.setText(whenText[i]);
-            } else { dateText.setText(whenText[i+1]);}
+            }
+            if (descriptionList.size() == 4) {
+                dateText.setText(whenText[i + 1]);
+            }
             description.setText(descriptionList.get(i));
             maxTempText.setText(maxTempList.get(i) + "℃");
 //            Log.d("最高気温", maxTempList.get(i));
@@ -129,11 +128,14 @@ public class ViewChanger {
 
             if (descriptionList.get(i).startsWith("Clear")) {
                 weatherImage.setImageResource(R.mipmap.sunny);
-            }  if(descriptionList.get(i).startsWith("Clouds")) {
+            }
+            if (descriptionList.get(i).startsWith("Clouds")) {
                 weatherImage.setImageResource(R.mipmap.cloudy);
-            }  if (descriptionList.get(i).startsWith("Rain")) {
+            }
+            if (descriptionList.get(i).startsWith("Rain")) {
                 weatherImage.setImageResource(R.mipmap.rainy);
-            }  if (descriptionList.get(i).startsWith("Snow")) {
+            }
+            if (descriptionList.get(i).startsWith("Snow")) {
                 weatherImage.setImageResource(R.mipmap.snow);
             }
 

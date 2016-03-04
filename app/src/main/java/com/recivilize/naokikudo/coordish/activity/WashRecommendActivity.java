@@ -72,14 +72,14 @@ public class WashRecommendActivity extends Activity implements LocationListener 
         if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            //位置情報を保存
+//            位置情報を保存
             gpsData = getSharedPreferences("SaveGPS", MODE_PRIVATE);
             editor = gpsData.edit();
             editor.putFloat("latitude", (float) latitude);
             editor.putFloat("longitude", (float) longitude);
+            editor.apply();
             Log.d("GPSSSSS", latitude + "");
             Log.d("GPSSSSS", longitude + "");
-            editor.apply();
 
             //天気情報を取得
             getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0), this);
