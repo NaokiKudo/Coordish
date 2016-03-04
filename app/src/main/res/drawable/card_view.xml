@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cardの構造 menu -->
+    <array name="card_list_data">
+        <item>@array/card1</item>
+        <item>@array/card2</item>
+        <item>@array/card3</item>
+    </array>
+
+    <!-- Cardの要素種別 +type -->
+    <array name="type_bg_card">
+        <item name="key">type</item>
+        <item name="value">bigCard</item>
+    </array>
+    <array name="type_md_card">
+        <item name="key">type</item>
+        <item name="value">middleCard</item>
+    </array>
+    <array name="type_sm_card">
+        <item name="key">type</item>
+        <item name="value">smallCard</item>
+    </array>
+
+    <!-- Cardの1要素内の構造 item -->
+    <array name="card1">
+        <item>@array/type_bg_card</item>
+        <item>@array/card_image1</item>
+        <item>@array/card_headline_text_1</item>
+        <item>@array/card_body_text_1</item>
+    </array>
+
+    <!-- Cardの表示内容・設定 content -->
+    <array name="card_image1">
+        <item name="key">image</item>
+        <item name="value">@drawable/photo</item>
+    </array>
+    <array name="card_headline_text_1">
+        <item name="key">headlineTxt</item>
+        <item name="value">headline 1</item>
+    </array>
+    <array name="card_body_text_1">
+        <item name="key">bodyTxt</item>
+        <item name="value">body 1</item>
+    </array>
+</selector>

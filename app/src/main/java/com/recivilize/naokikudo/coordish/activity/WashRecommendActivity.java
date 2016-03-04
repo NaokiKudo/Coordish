@@ -1,4 +1,4 @@
-package com.recivilize.naokikudo.coordish;
+package com.recivilize.naokikudo.coordish.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -7,20 +7,23 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import com.recivilize.naokikudo.coordish.GetWeatherForecast;
+import com.recivilize.naokikudo.coordish.R;
 
 
-public class Wash_Recommend extends Activity implements LocationListener{
+public class WashRecommendActivity extends Activity implements LocationListener {
 
+    //位置情報関連
     private static final int LOCATION_UPDATE_MIN_TIME = 0;
-    //update time (approximately)
     private static final int LOCATION_UPDATE_MIN_DISTANCE = 1;
-    //update Distance (approximately)
     double latitude;
     double longitude;
     public SharedPreferences gpsData;
@@ -30,53 +33,39 @@ public class Wash_Recommend extends Activity implements LocationListener{
 
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
 
-
-    static TextView todayWeather;
-    static TextView tomorrowWeather;
-    static TextView threeDaysAfterWeather;
-    static TextView fourDaysAfterWeather;
-    static TextView fiveDaysAfterWeather;
-    static TextView when;
-    static TextView weatherLocation;
-
-    static ImageView todayWeatherImage;
-
-
+    //レイアウト関連
+    public static TextView when;
+    public static TextView weatherLocation;
+    public static TextView recommendation;
+    public static LinearLayout cardLinear;
+    //画像
+    public static LayoutInflater inflater;
+    public static LinearLayout linearLayout;
+    public static CardView cardView;
+    public static TextView description;
+    public static TextView dateText;
+    public static TextView maxTempText;
+    public static TextView minTempText;
+    public static TextView humidityText;
+    public static TextView windSpeedText;
+    public static ImageView weatherImage;
 
     @Override
-    public void onCreate (Bundle savedInstanceState){
-
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wash__recommend);
+        cardLinear = (LinearLayout) findViewById(R.id.cardLinear);
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        cardLinear.removeAllViews();
+
+        when = (TextView) findViewById(R.id.when);
+        weatherLocation = (TextView) findViewById(R.id.location);
+        recommendation = (TextView) findViewById(R.id.recommendation);
+
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        todayWeather = (TextView) findViewById(R.id.todayWeather);
-        tomorrowWeather = (TextView)findViewById(R.id.tomorrowWeather);
-        threeDaysAfterWeather = (TextView)findViewById(R.id.threeDaysAfterWeather);
-        fourDaysAfterWeather = (TextView)findViewById(R.id.fourDaysAfterWeather);
-        fiveDaysAfterWeather = (TextView)findViewById(R.id.fiveDaysAfterWeather);
-        TextView[] date = {(TextView)findViewById(R.id.today),
-                            (TextView)findViewById(R.id.tomorrow),
-                            (TextView)findViewById(R.id.threeDaysAfter),
-                            (TextView)findViewById(R.id.fourDaysAfter),
-                            (TextView)findViewById(R.id.fiveDaysAfter)};
 
-
-        when = (TextView)findViewById(R.id.when);
-        weatherLocation = (TextView) findViewById(R.id.location);
-
-        //時間(hour)を取得
-        long currentTimeMillis = System.currentTimeMillis();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(currentTimeMillis);
-        
-        if(calendar.get(Calendar.HOUR_OF_DAY) >= 12){
-            for(int i = 0; i < date.length; i++) {
-                String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
-
-                date[i].setText(whenText[i+1]);
-            }
-        }
         //位置情報を取得
         requestLocationUpdates();
         //緯度経度
@@ -90,22 +79,16 @@ public class Wash_Recommend extends Activity implements LocationListener{
             editor.putFloat("longitude", (float) longitude);
             Log.d("GPSSSSS", latitude + "");
             Log.d("GPSSSSS", longitude + "");
-            editor.commit();
+            editor.apply();
 
             //天気情報を取得
-            getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
+            getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0), this);
         } else {
             Toast.makeText(this, "Cannot get location", Toast.LENGTH_LONG).show();
         }
 
 
-
-
-
-
     }
-
-
 
 
     //GPSメソッド群
