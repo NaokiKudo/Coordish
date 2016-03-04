@@ -10,10 +10,8 @@
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
-        android:elevation="2dp"
+        android:elevation="4dp"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="2dp">
 
@@ -24,15 +22,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:elevation="2dp">
 
             <RelativeLayout
                 android:id="@+id/cardRelative2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:elevation="4dp">
 
                 <ImageView
-                    android:id="@+id/todayImage"
+                    android:id="@+id/weatherImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -45,25 +45,25 @@
                     android:background="#55000000">
 
                     <TextView
-                        android:id="@+id/textBox"
+                        android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="24dp"
-                        android:layout_toEndOf="@+id/textBox2"
+                        android:layout_toEndOf="@+id/date"
                         android:text="CardView"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#FFFFFF"
                         android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/textBox2"
+                        android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginLeft="8dp"
-                        android:text="Today"
+                        android:text="Date"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp" />
 
@@ -76,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_margin="4dp">
 
                 <TextView
                     android:id="@+id/max"
@@ -90,7 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="x ℃"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:gravity="left" />
 
             </LinearLayout>
@@ -99,7 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_margin="4dp">
 
                 <TextView
                     android:id="@+id/Min"
@@ -113,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="x ℃"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -121,7 +123,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_margin="4dp">
 
                 <TextView
                     android:id="@+id/humidity"
@@ -135,7 +138,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="x %"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -143,7 +146,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_margin="4dp">
 
                 <TextView
                     android:id="@+id/wind"

@@ -1,20 +1,20 @@
 package com.recivilize.naokikudo.coordish;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Calendar;
+import com.recivilize.naokikudo.coordish.activity.WashRecommendActivity;
+
 import java.util.List;
 
-public class viewChanger {
+public class ViewChanger {
 
-
-
-
-
-
-    public void viewChange () {
+    public void viewChange (Context context) {
         //---------------------変数の定義
         List<String> descriptionList = GetWeatherForecast.descriptionList;
         List<String> maxTempList = GetWeatherForecast.maxTempList;
@@ -22,48 +22,23 @@ public class viewChanger {
         List<String> humidityList = GetWeatherForecast.humidityList;
         List<String> windSpeedList = GetWeatherForecast.windSpeedList;
 
-        TextView[] date = Wash_Recommend.date;
-
-        TextView todayWeather = Wash_Recommend.todayWeather;
-        TextView tomorrowWeather = Wash_Recommend.tomorrowWeather;
-        TextView threeDaysAfterWeather = Wash_Recommend.threeDaysAfterWeather;
-        TextView fourDaysAfterWeather = Wash_Recommend.fourDaysAfterWeather;
-        TextView fiveDaysAfterWeather = Wash_Recommend.fiveDaysAfterWeather;
-        TextView weatherLocation = Wash_Recommend.weatherLocation;
-        TextView recommendation = Wash_Recommend.recommendation;
-        TextView when = Wash_Recommend.when;
+        TextView recommendation = WashRecommendActivity.recommendation;
+        TextView weatherLocation = WashRecommendActivity.weatherLocation;
+        TextView when = WashRecommendActivity.when;
         String name = GetWeatherForecast.name;
         String country = GetWeatherForecast.country;
-        //---------------------ここまで
-
-
-
+        Log.d("TAG1", descriptionList.get(0));
+        //天気取得場所の設定
         weatherLocation.setText("in " + name + ", "+ country);
-        todayWeather.setText(descriptionList.get(0));
-        tomorrowWeather.setText(descriptionList.get(1));
-        threeDaysAfterWeather.setText(descriptionList.get(2));
-        fourDaysAfterWeather.setText(descriptionList.get(3));
-        if(descriptionList.size()==5) {
-            fiveDaysAfterWeather.setText(descriptionList.get(4));
-        }
+        //日にちの配列
+        String[] whenText = {"Today", "Tomorrow", "2 Days After", "3 Days After", "4 Days After", "5 DaysAfter"};
 
-        String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
 
-        //時間(hour)を取得
-        long currentTimeMillis = System.currentTimeMillis();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(currentTimeMillis);
-        Log.d("日にちい", ""+calendar.get(Calendar.DATE));
 
         //12時以降は取得する天気予報が次の日からになるので、表示をずらす
-        if(descriptionList.size()==4){
-            for(int i = 0; i < date.length - 1; i++) {
-                date[i].setText(whenText[i+1]);
-            }
-        }
+
 
         //推奨日をセットしたかのスイッチ
-        //0はセットなし 1はセット済み
         int switch1 = 0;
         int switch2 = 0;
         for (int i = 0; i < descriptionList.size(); i++){
@@ -76,12 +51,11 @@ public class viewChanger {
         }
 
 
-
         //直前の晴れの日を洗濯推奨日にする。
         if(switch1 != 0) {
             for (int i = 0; i < descriptionList.size(); i++) {
                 if (descriptionList.get(i).startsWith("Clear")) {
-                    if (calendar.get(Calendar.HOUR_OF_DAY) >= 12) {
+                    if (descriptionList.size()==4) {
                         when.setText(whenText[i + 1]);
                         break;
                     } else {
@@ -96,7 +70,7 @@ public class viewChanger {
         if (switch1 == 0){
             for(int i =0; i < descriptionList.size(); i++) {
                 if (descriptionList.get(i).startsWith("Clouds") ) {
-                    if (calendar.get(Calendar.HOUR_OF_DAY) >= 12){
+                    if (descriptionList.size() ==4){
                         when.setText(whenText[i+1]);
                         break;
                     } else {
@@ -112,7 +86,59 @@ public class viewChanger {
             recommendation.setText("No chance to wash in a few days");
         }
 
+        //
+
         //天気、最高気温、最低気温、湿度、風速をレイアウトにセット
+        LinearLayout cardLinear = WashRecommendActivity.cardLinear;
+        cardLinear.removeAllViews();
+
+        for (int i = 0; i < descriptionList.size(); i++) {
+            Log.d("description", descriptionList.get(i));
+            LayoutInflater inflater = WashRecommendActivity.inflater;
+
+            LinearLayout linearLayout;
+            TextView description;
+            TextView dateText;
+            TextView maxTempText;
+            TextView minTempText;
+            TextView humidityText;
+            TextView windSpeedText;
+            ImageView weatherImage;
+
+            linearLayout = (LinearLayout) inflater.inflate(R.layout.cards_layout, null);
+            description = (TextView) linearLayout.findViewById(R.id.description);
+            dateText = (TextView) linearLayout.findViewById(R.id.date);
+            maxTempText = (TextView) linearLayout.findViewById(R.id.maxTemp);
+            minTempText = (TextView) linearLayout.findViewById(R.id.minTemp);
+            humidityText = (TextView) linearLayout.findViewById(R.id.humidityNum);
+            windSpeedText = (TextView)linearLayout.findViewById(R.id.windSpeed);
+            weatherImage = (ImageView) linearLayout.findViewById(R.id.weatherImage);
+            weatherImage.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            description.setText(descriptionList.get(i));
+            dateText.setText(whenText[i]);
+            maxTempText.setText(maxTempList.get(i) + "℃");
+//            Log.d("最高気温", maxTempList.get(i));
+            minTempText.setText(minTempList.get(i) + "℃");
+//            Log.d("最低気温", minTempList.get(i));
+            humidityText.setText(humidityList.get(i) + "%");
+            windSpeedText.setText(windSpeedList.get(i) + "m/s");
+
+
+            if (descriptionList.get(i).startsWith("Clear")) {
+                Log.d("if文動いてます？", "動いてるよ");
+                weatherImage.setImageResource(R.mipmap.sunny);
+            }  if(descriptionList.get(i).startsWith("Clouds")) {
+                weatherImage.setImageResource(R.mipmap.cloudy);
+            }  if (descriptionList.get(i).startsWith("Rain")) {
+                weatherImage.setImageResource(R.mipmap.rainy);
+            }  if (descriptionList.get(i).startsWith("Snow")) {
+                weatherImage.setImageResource(R.mipmap.snow);
+            }
+
+            cardLinear.addView(linearLayout);
+
+        }
 
     }
 }

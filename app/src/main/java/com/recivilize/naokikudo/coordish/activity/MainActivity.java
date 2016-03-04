@@ -3,7 +3,7 @@
 //一時的に無効化されたクラス
 
 
-package com.recivilize.naokikudo.coordish;
+package com.recivilize.naokikudo.coordish.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.recivilize.naokikudo.coordish.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //すぐ画面移行(一時的)
-        Intent intent = new Intent(this, Wash_Recommend.class);
+        Intent intent = new Intent(this, WashRecommendActivity.class);
         startActivity(intent);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //データの保存領域を確保する
         pref = getSharedPreferences("dataSave", MODE_PRIVATE);
 //        if (pref.getInt("sex", 0) == 1 || pref.getInt("sex", 0) == 2) {
-//            Intent intent = new Intent(this, Wash_Recommend.class);
+//            Intent intent = new Intent(this, WashRecommendActivity.class);
 //            startActivity(intent);
 //        }
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("sex", 1);
         editor.commit();
 
-        Intent intent = new Intent(this, Wash_Recommend.class);
+        Intent intent = new Intent(this, WashRecommendActivity.class);
         startActivity(intent);
 
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         editor= pref.edit();
         editor.putInt("sex", 2);
         editor.commit();
-        Intent intent = new Intent(this, Wash_Recommend.class);
+        Intent intent = new Intent(this, WashRecommendActivity.class);
         startActivity(intent);
     }
 

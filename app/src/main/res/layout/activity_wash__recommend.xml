@@ -1,141 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="56dp"
-    tools:context="com.recivilize.naokikudo.coordish.Wash_Recommend"
     android:orientation="vertical"
+    android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+    tools:context="com.recivilize.naokikudo.coordish.activity.WashRecommendActivity">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/you_should_wash"
-            android:id="@+id/recommendation"
-            android:layout_gravity="center_horizontal"
-        android:textSize="24sp"
-        android:textStyle="normal"
-        android:textColor="@color/textPrimary" />
-    <TextView
+        android:id="@+id/recommendation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="when"
-        android:id="@+id/when"
         android:layout_gravity="center_horizontal"
-        android:textSize="34sp"
-        android:textStyle="normal"
-        android:textColor="@color/textPrimary" />
+        android:text="@string/you_should_wash"
+        android:textColor="@color/textPrimary"
+        android:textSize="24sp"
+        android:textStyle="normal" />
 
     <TextView
+        android:id="@+id/when"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/location"
-        android:layout_gravity="right"
+        android:layout_gravity="center_horizontal"
+        android:text="when"
         android:textColor="@color/textPrimary"
-        android:layout_marginBottom="16dp" />
+        android:textSize="34sp"
+        android:textStyle="normal" />
 
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="16dp"
+        android:text="New Text"
+        android:textColor="@color/textPrimary" />
 
-
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:fillViewport="false">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/cardLinear"
             android:layout_width="match_parent"
-            android:layout_height="ma"></ScrollView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today"
-            android:id="@+id/today"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/todayWeather"
-            android:layout_marginBottom="24dp"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tomorrow"
-            android:id="@+id/tomorrow"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tomorrowWeather"
-            android:layout_marginBottom="24dp"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3days after"
-            android:id="@+id/threeDaysAfter"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/threeDaysAfterWeather"
-            android:layout_marginBottom="24dp"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4days after"
-            android:id="@+id/fourDaysAfter"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/fourDaysAfterWeather"
-            android:layout_marginBottom="24dp"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5days after"
-            android:id="@+id/fiveDaysAfter"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/fiveDaysAfterWeather"
-            android:textSize="15sp"
-            android:textColor="@color/textPrimary" />
-    </LinearLayout>
-
-
-
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

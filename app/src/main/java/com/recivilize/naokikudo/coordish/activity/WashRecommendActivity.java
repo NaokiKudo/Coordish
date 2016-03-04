@@ -1,4 +1,4 @@
-package com.recivilize.naokikudo.coordish;
+package com.recivilize.naokikudo.coordish.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -7,12 +7,19 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.recivilize.naokikudo.coordish.GetWeatherForecast;
+import com.recivilize.naokikudo.coordish.R;
 
-public class Wash_Recommend extends Activity implements LocationListener{
+
+public class WashRecommendActivity extends Activity implements LocationListener {
 
     //位置情報関連
     private static final int LOCATION_UPDATE_MIN_TIME = 0;
@@ -27,50 +34,37 @@ public class Wash_Recommend extends Activity implements LocationListener{
     GetWeatherForecast getWeatherForecast = new GetWeatherForecast();
 
     //レイアウト関連
-    //テキスト(日)
-    static TextView[] date;
-    //テキスト(天気)
-    static TextView todayWeather;
-    static TextView tomorrowWeather;
-    static TextView threeDaysAfterWeather;
-    static TextView fourDaysAfterWeather;
-    static TextView fiveDaysAfterWeather;
-
-    //テキスト(場所,推奨日)
-    static TextView weatherLocation;
-    static TextView recommendation;
-    static TextView when;
+    public static TextView when;
+    public static TextView weatherLocation;
+    public static TextView recommendation;
+    public static LinearLayout cardLinear;
     //画像
-
-
-
+    public static LayoutInflater inflater;
+    public static LinearLayout linearLayout;
+    public static CardView cardView;
+    public static TextView description;
+    public static TextView dateText;
+    public static TextView maxTempText;
+    public static TextView minTempText;
+    public static TextView humidityText;
+    public static TextView windSpeedText;
+    public static ImageView weatherImage;
 
     @Override
-    public void onCreate (Bundle savedInstanceState){
-
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wash__recommend);
+        cardLinear = (LinearLayout) findViewById(R.id.cardLinear);
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        cardLinear.removeAllViews();
+
+        when = (TextView) findViewById(R.id.when);
+        weatherLocation = (TextView) findViewById(R.id.location);
+        recommendation = (TextView) findViewById(R.id.recommendation);
+
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
-        //------------ビュー始まり------------
-        todayWeather = (TextView) findViewById(R.id.todayWeather);
-        tomorrowWeather = (TextView)findViewById(R.id.tomorrowWeather);
-        threeDaysAfterWeather = (TextView)findViewById(R.id.threeDaysAfterWeather);
-        fourDaysAfterWeather = (TextView)findViewById(R.id.fourDaysAfterWeather);
-        fiveDaysAfterWeather = (TextView)findViewById(R.id.fiveDaysAfterWeather);
-        recommendation = (TextView)findViewById(R.id.recommendation);
-        when = (TextView)findViewById(R.id.when);
-        weatherLocation = (TextView) findViewById(R.id.location);
-
-        date = new TextView[]{(TextView) findViewById(R.id.today),
-                (TextView) findViewById(R.id.tomorrow),
-                (TextView) findViewById(R.id.threeDaysAfter),
-                (TextView) findViewById(R.id.fourDaysAfter),
-                (TextView) findViewById(R.id.fiveDaysAfter)};
-        //----------ビューおしまい-----------
-
 
         //位置情報を取得
         requestLocationUpdates();
@@ -88,15 +82,13 @@ public class Wash_Recommend extends Activity implements LocationListener{
             editor.apply();
 
             //天気情報を取得
-            getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
+            getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0), this);
         } else {
             Toast.makeText(this, "Cannot get location", Toast.LENGTH_LONG).show();
         }
 
 
     }
-
-
 
 
     //GPSメソッド群

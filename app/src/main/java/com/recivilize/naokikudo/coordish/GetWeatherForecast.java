@@ -1,7 +1,7 @@
 package com.recivilize.naokikudo.coordish;
 
+import android.content.Context;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.squareup.okhttp.Callback;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GetWeatherForecast extends AppCompatActivity {
-    viewChanger viewChanger = new viewChanger();
+public class GetWeatherForecast {
+    ViewChanger ViewChanger = new ViewChanger();
     Handler mHandler = new android.os.Handler();
     static List<String> descriptionList = new ArrayList<>();
     static List<String> maxTempList = new ArrayList<>();
@@ -31,7 +31,7 @@ public class GetWeatherForecast extends AppCompatActivity {
 
 
 
-    public void getForecast (float latitude, float longitude) {
+    public void getForecast (float latitude, float longitude, final Context context) {
         //リクエストオブジェクトを作って
         Request request = new Request.Builder()
                 //URLを生成
@@ -59,7 +59,7 @@ public class GetWeatherForecast extends AppCompatActivity {
                         //JSON文字列を変換
                         parseJson(json);
                         //別クラスでViewを配置
-                        viewChanger.viewChange();
+                        ViewChanger.viewChange(context);
 
                     }
                 });
@@ -104,11 +104,17 @@ public class GetWeatherForecast extends AppCompatActivity {
                             JSONObject temperatureObject = new JSONObject(temperature);
                             //最高気温を取得,リストに追加
                             String maxTemp = temperatureObject.getString("temp_max");
-                            maxTempList.add(maxTemp);
+                            Log.d("最高気温", maxTemp);
+                            double parseMaxTemp = Double.parseDouble(maxTemp) - 273.15;
+                            int parseMaxTempInt = (int)parseMaxTemp;
+                            maxTempList.add(String.valueOf(parseMaxTempInt));
 
                             //最低気温を取得,リストに追加
                             String minTemp = temperatureObject.getString("temp_min");
-                            minTempList.add(minTemp);
+                            Log.d("最低気温", minTemp);
+                            double parseMinTemp = Double.parseDouble(minTemp) - 273.15;
+                            int parseMinTempInt = (int)parseMinTemp;
+                            minTempList.add(String.valueOf(parseMinTempInt));
 
                             //湿度を取得,リストに追加
                             String humidity = temperatureObject.getString("humidity");
