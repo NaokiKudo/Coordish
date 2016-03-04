@@ -115,8 +115,10 @@ public class ViewChanger {
             weatherImage = (ImageView) linearLayout.findViewById(R.id.weatherImage);
             weatherImage.setScaleType(ImageView.ScaleType.FIT_XY);
 
+            if (descriptionList.size()==5) {
+                dateText.setText(whenText[i]);
+            } else { dateText.setText(whenText[i+1]);}
             description.setText(descriptionList.get(i));
-            dateText.setText(whenText[i]);
             maxTempText.setText(maxTempList.get(i) + "℃");
 //            Log.d("最高気温", maxTempList.get(i));
             minTempText.setText(minTempList.get(i) + "℃");
