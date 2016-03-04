@@ -126,7 +126,6 @@ public class ViewChanger {
 
 
             if (descriptionList.get(i).startsWith("Clear")) {
-                Log.d("if文動いてます？", "動いてるよ");
                 weatherImage.setImageResource(R.mipmap.sunny);
             }  if(descriptionList.get(i).startsWith("Clouds")) {
                 weatherImage.setImageResource(R.mipmap.cloudy);
