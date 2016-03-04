@@ -21,11 +21,11 @@ import java.util.List;
 public class GetWeatherForecast extends AppCompatActivity {
     viewChanger viewChanger = new viewChanger();
     Handler mHandler = new android.os.Handler();
-    static List<String> descriptionList = new ArrayList<String>();
-    static List<String> maxTempList = new ArrayList<String>();
-    static List<String> minTempList = new ArrayList<String>();
-    static List<String> humidityList = new ArrayList<String>();
-    static List<String> windSpeedList = new ArrayList<String>();
+    static List<String> descriptionList = new ArrayList<>();
+    static List<String> maxTempList = new ArrayList<>();
+    static List<String> minTempList = new ArrayList<>();
+    static List<String> humidityList = new ArrayList<>();
+    static List<String> windSpeedList = new ArrayList<>();
     static String name;
     static String country;
 

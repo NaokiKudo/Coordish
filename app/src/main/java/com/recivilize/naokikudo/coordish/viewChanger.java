@@ -1,6 +1,7 @@
 package com.recivilize.naokikudo.coordish;
 
 
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -42,7 +43,9 @@ public class viewChanger {
         tomorrowWeather.setText(descriptionList.get(1));
         threeDaysAfterWeather.setText(descriptionList.get(2));
         fourDaysAfterWeather.setText(descriptionList.get(3));
-        fiveDaysAfterWeather.setText(descriptionList.get(4));
+        if(descriptionList.size()==5) {
+            fiveDaysAfterWeather.setText(descriptionList.get(4));
+        }
 
         String[] whenText = {"Today", "Tomorrow", "3 Days After", "4 Days After", "5Days After", "6DaysAfter"};
 
@@ -50,10 +53,11 @@ public class viewChanger {
         long currentTimeMillis = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentTimeMillis);
+        Log.d("日にちい", ""+calendar.get(Calendar.DATE));
 
         //12時以降は取得する天気予報が次の日からになるので、表示をずらす
-        if(calendar.get(Calendar.HOUR_OF_DAY) >= 12){
-            for(int i = 0; i < date.length; i++) {
+        if(descriptionList.size()==4){
+            for(int i = 0; i < date.length - 1; i++) {
                 date[i].setText(whenText[i+1]);
             }
         }
@@ -62,7 +66,7 @@ public class viewChanger {
         //0はセットなし 1はセット済み
         int switch1 = 0;
         int switch2 = 0;
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < descriptionList.size(); i++){
             if(descriptionList.get(i).startsWith("Clear")) {
                 switch1 ++;
             }
@@ -75,7 +79,7 @@ public class viewChanger {
 
         //直前の晴れの日を洗濯推奨日にする。
         if(switch1 != 0) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < descriptionList.size(); i++) {
                 if (descriptionList.get(i).startsWith("Clear")) {
                     if (calendar.get(Calendar.HOUR_OF_DAY) >= 12) {
                         when.setText(whenText[i + 1]);
@@ -90,7 +94,7 @@ public class viewChanger {
         }
         //晴れの日がなかった場合、直前の曇りの日を推奨日にする
         if (switch1 == 0){
-            for(int i =0; i < 5; i++) {
+            for(int i =0; i < descriptionList.size(); i++) {
                 if (descriptionList.get(i).startsWith("Clouds") ) {
                     if (calendar.get(Calendar.HOUR_OF_DAY) >= 12){
                         when.setText(whenText[i+1]);

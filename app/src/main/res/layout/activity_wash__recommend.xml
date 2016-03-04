@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="56dp"
@@ -34,20 +35,27 @@
         android:text="New Text"
         android:id="@+id/location"
         android:layout_gravity="right"
-        android:textColor="@color/textPrimary" />
+        android:textColor="@color/textPrimary"
+        android:layout_marginBottom="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today"
-        android:id="@+id/today"
-        android:textSize="15sp"
-        android:textColor="@color/textPrimary" />
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="ma"></ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:id="@+id/today"
+            android:textSize="15sp"
+            android:textColor="@color/textPrimary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,6 +133,9 @@
             android:textSize="15sp"
             android:textColor="@color/textPrimary" />
     </LinearLayout>
+
+
+
 
 
 </LinearLayout>

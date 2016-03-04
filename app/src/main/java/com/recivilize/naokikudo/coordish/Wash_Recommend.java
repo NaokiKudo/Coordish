@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +41,7 @@ public class Wash_Recommend extends Activity implements LocationListener{
     static TextView recommendation;
     static TextView when;
     //画像
-    static ImageView todayWeatherImage;
+
 
 
 
@@ -54,7 +53,8 @@ public class Wash_Recommend extends Activity implements LocationListener{
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        //---------初期化---------------
+
+        //------------ビュー始まり------------
         todayWeather = (TextView) findViewById(R.id.todayWeather);
         tomorrowWeather = (TextView)findViewById(R.id.tomorrowWeather);
         threeDaysAfterWeather = (TextView)findViewById(R.id.threeDaysAfterWeather);
@@ -69,7 +69,7 @@ public class Wash_Recommend extends Activity implements LocationListener{
                 (TextView) findViewById(R.id.threeDaysAfter),
                 (TextView) findViewById(R.id.fourDaysAfter),
                 (TextView) findViewById(R.id.fiveDaysAfter)};
-        //----------初期化終了-----------
+        //----------ビューおしまい-----------
 
 
         //位置情報を取得
@@ -85,7 +85,7 @@ public class Wash_Recommend extends Activity implements LocationListener{
             editor.putFloat("longitude", (float) longitude);
             Log.d("GPSSSSS", latitude + "");
             Log.d("GPSSSSS", longitude + "");
-            editor.commit();
+            editor.apply();
 
             //天気情報を取得
             getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0));
