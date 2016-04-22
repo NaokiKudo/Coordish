@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.recivilize.naokikudo.coordish.activity.WashRecommendActivity;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewChanger {
@@ -47,41 +48,6 @@ public class ViewChanger {
         }
 
 
-        //直前の晴れの日を洗濯推奨日にする。
-        if (switch1 != 0) {
-            for (int i = 0; i < descriptionList.size(); i++) {
-                if (descriptionList.get(i).startsWith("Clear")) {
-                    if (descriptionList.size() == 4) {
-                        when.setText(whenText[i + 1]);
-                        break;
-                    } else {
-                        when.setText(whenText[i]);
-                        break;
-                    }
-                }
-
-            }
-        }
-        //晴れの日がなかった場合、直前の曇りの日を推奨日にする
-        if (switch1 == 0) {
-            for (int i = 0; i < descriptionList.size(); i++) {
-                if (descriptionList.get(i).startsWith("Clouds")) {
-                    if (descriptionList.size() == 4) {
-                        when.setText(whenText[i + 1]);
-                        break;
-                    } else {
-                        when.setText(whenText[i]);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (switch1 == 0 && switch2 == 0) {
-            when.setText("");
-            recommendation.setText("No chance to wash in a few days");
-        }
-
         //
 
         //天気、最高気温、最低気温、湿度、風速をレイアウトにセット
@@ -115,7 +81,13 @@ public class ViewChanger {
                 dateText.setText(whenText[i]);
             }
             if (descriptionList.size() == 4) {
-                dateText.setText(whenText[i + 1]);
+                Calendar cal = Calendar.getInstance();
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                if (hour < 12) {
+                    dateText.setText(whenText[i]);
+                } else {
+                    dateText.setText(whenText[i + 1]);
+                }
             }
             description.setText(descriptionList.get(i));
             maxTempText.setText(maxTempList.get(i) + "℃");
@@ -126,16 +98,16 @@ public class ViewChanger {
             windSpeedText.setText(windSpeedList.get(i) + "m/s");
 
 
-            if (descriptionList.get(i).startsWith("Clear")) {
+            if (descriptionList.get(i).equals("Clear")) {
                 weatherImage.setImageResource(R.mipmap.sunny);
             }
-            if (descriptionList.get(i).startsWith("Clouds")) {
+            if (descriptionList.get(i).equals("Clouds")) {
                 weatherImage.setImageResource(R.mipmap.cloudy);
             }
-            if (descriptionList.get(i).startsWith("Rain")) {
+            if (descriptionList.get(i).equals("Rain")) {
                 weatherImage.setImageResource(R.mipmap.rainy);
             }
-            if (descriptionList.get(i).startsWith("Snow")) {
+            if (descriptionList.get(i).equals("Snow")) {
                 weatherImage.setImageResource(R.mipmap.snow);
             }
 
@@ -143,5 +115,56 @@ public class ViewChanger {
 
         }
 
+        //直前の晴れの日を洗濯推奨日にする。
+        if (switch1 != 0) {
+            for (int i = 0; i < descriptionList.size(); i++) {
+                if (descriptionList.get(i).startsWith("Clear")) {
+                    if (descriptionList.size() == 4) {
+
+                        Calendar cal = Calendar.getInstance();
+                        int hour = cal.get(Calendar.HOUR_OF_DAY);
+                        if (hour < 12) {
+                            when.setText(whenText[i]);
+                        } else {
+                            when.setText(whenText[i + 1]);
+                            break;
+                        }
+                    } else {
+                        when.setText(whenText[i]);
+                        break;
+                    }
+
+                }
+
+            }
+        }
+        //晴れの日がなかった場合、直前の曇りの日を推奨日にする
+        if (switch1 == 0) {
+            for (int i = 0; i < descriptionList.size(); i++) {
+                if (descriptionList.get(i).startsWith("Clouds")) {
+                    if (descriptionList.size() == 4) {
+                        Calendar cal = Calendar.getInstance();
+                        int hour = cal.get(Calendar.HOUR_OF_DAY);
+                        if (hour < 12) {
+                            when.setText(whenText[i]);
+                        } else {
+                            when.setText(whenText[i + 1]);
+                            break;
+                        }
+                    } else {
+                        when.setText(whenText[i]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (switch1 == 0 && switch2 == 0) {
+            when.setText("");
+            recommendation.setText("No chance to wash in a few days");
+        }
+
     }
+
+
 }

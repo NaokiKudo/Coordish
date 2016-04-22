@@ -78,8 +78,8 @@ public class WashRecommendActivity extends Activity implements LocationListener 
             editor.putFloat("latitude", (float) latitude);
             editor.putFloat("longitude", (float) longitude);
             editor.apply();
-            Log.d("GPSSSSS", latitude + "");
-            Log.d("GPSSSSS", longitude + "");
+            Log.d("GPS", latitude + "");
+            Log.d("GPS", longitude + "");
 
             //天気情報を取得
             getWeatherForecast.getForecast(gpsData.getFloat("latitude", 0), gpsData.getFloat("longitude", 0), this);
